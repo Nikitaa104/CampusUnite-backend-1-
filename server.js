@@ -52,6 +52,12 @@ app.use('/api/recommendations', recommendationRoutes);
 // Notification routes
 app.use('/api/notifications', notificationRoutes);
 
+//testing route(Temporary)
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Backend working fine!" });
+});
+
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
