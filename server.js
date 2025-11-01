@@ -7,6 +7,9 @@ import userRoutes from './routes/userRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
 import testRoutes from './routes/testRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import recommendationRoutes from './routes/recommendationRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+
 
 // Load environment variables
 dotenv.config();
@@ -43,6 +46,12 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Recommendation routes
+app.use('/api/recommendations', recommendationRoutes);
+
+// Notification routes
+app.use('/api/notifications', notificationRoutes);
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
@@ -53,3 +62,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
