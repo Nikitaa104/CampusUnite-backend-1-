@@ -7,9 +7,6 @@ import userRoutes from './routes/userRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
 import testRoutes from './routes/testRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-import recommendationRoutes from './routes/recommendationRoutes.js';
-import notificationRoutes from './routes/notificationRoutes.js';
-
 
 // Load environment variables
 dotenv.config();
@@ -20,8 +17,20 @@ connectDB();
 // Initialize Express app
 const app = express();
 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:8080",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// Handle preflight requests globally
+app.options("*", cors());
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,18 +55,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Recommendation routes
-app.use('/api/recommendations', recommendationRoutes);
-
-// Notification routes
-app.use('/api/notifications', notificationRoutes);
-
-//testing route(Temporary)
-// Simple test route
-app.get("/api/test", (req, res) => {
-  res.json({ message: "Backend working fine!" });
-});
-
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
@@ -68,4 +65,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
